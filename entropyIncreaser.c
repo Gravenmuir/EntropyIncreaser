@@ -31,8 +31,10 @@ int main( int argc, const char* argv[] )
 
     printf("Increasing entropy count by %d bits\n", addEntropyAmount);
     int result = ioctl(devRandomDevice, RNDADDTOENTCNT, &addEntropyAmount);
-    printf("Increment entropy count result: %d\n", result);
-
+    // printf("Increment entropy count result: %d\n", result);
+    if (result == -1) {
+	printf("Failed to increase entropy count, maybe you forgot sudo?\n");
+    }
     int storedEntropyLater;
     ioctl(devRandomDevice, RNDGETENTCNT, &storedEntropyLater);
     printf("Increased entropy count by %d bits\n", (storedEntropyLater - storedEntropyCount));
